@@ -1,0 +1,109 @@
+
+
+<!DOCTYPE html>
+<html>
+ <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<style type="text/css">
+	.centerBox{
+		position: fixed;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  height: 300px;
+		  width: 700px;
+		  padding: 50px;
+		  background-color: #800000 ;
+		  color:white;
+		  border-radius: 20px;
+		  font-family:"Trebuchet MS";
+	}
+	#input{
+		width:50%; 
+		margin-left: 25%;
+		display:block;
+				height: 30px;
+		font-size: 15px;
+	}
+	.center{
+		text-align: center;
+	}
+	.message{
+		color:white;
+		text-align: center;
+		width: 100%;
+		text-decoration: none;
+	}
+	#atUSC{
+		visibility: hidden;
+	}
+	#notAtUSC{
+		visibility: hidden;
+	}
+	#loading{
+		visibility: visible;
+		height:inherit;
+		text-align: center;
+	}
+	#registerlink{
+		color: white;
+		text-decoration: none;
+	}
+</style>
+
+
+<head>
+	<title><%= title %></title>
+</head>
+<body>
+	<% if (latitude && longitude) { %>
+		<script>
+			// var holy = <%= latitude %>
+			// console.log("lat"+<%= latitude %>)
+			// console.log("lon"+<%= longitude %>)
+			getLocation();
+			function getLocation() {
+			    if (navigator.geolocation) {
+			        navigator.geolocation.getCurrentPosition(function (position) {
+			        	if((Math.abs(position.coords.latitude - <%= latitude %>) < 0.01) && (Math.abs(position.coords.longitude - <%= longitude %>) < 0.01)){
+			        		console.log("were in business")
+			        		document.getElementById("atUSC").style.visibility = "visible";
+			        		document.getElementById("loading").style.visibility = "hidden";
+			        	}else{
+			        		console.log("no business")
+			        		document.getElementById("notAtUSC").style.visibility = "visible";
+			        		document.getElementById("loading").style.visibility = "hidden";
+			        	}
+					});
+			    } else { 
+			    	document.getElementById("notAtUSC").style.visibility = "visible";
+			    	document.getElementById("loading").style.visibility = "hidden";
+			    }
+			}
+
+		</script>
+	<% }else{ %>
+		<div>sorry</div>
+	<% } %>
+	<div class="centerBox" id="loading">
+		<h2>Checking your location. Please wait.</h2>
+		<img src="http://24.media.tumblr.com/tumblr_maj03kizgC1r5susro1_r1_500.gif">
+	</div>
+	<div class="centerBox" id="atUSC">
+		<h1 class="center">Welcome to ShoutOn!</h1>
+		<% if (errors) { %>
+		  <h4 class="message"><%= errors %></h4>
+		<% } %>
+		<form method="post" action="/">
+			<input id="input" type="text" name="username" placeholder="Username">
+			<input id="input" type="password" name="password" placeholder="Password"><br><br>
+			<input id="input" class="btn btn-success btn-lg" type="submit" value="Submit"> 
+		</form>	<br>
+		<div class="message"><a id="registerlink" href="/register">Need an account? Register now.</a><div>
+	</div>
+	<div class="centerBox" id="notAtUSC">
+		<h1>Sorry!</h1>
+		<h2>You are currently not near the Univeristy of Southern California. Please try again when you are closer to the campus.</h2>
+		<img src="http://ict.usc.edu/wp-content/uploads/2012/02/usccampus.jpg">
+	</div>
+</body>
+</html>

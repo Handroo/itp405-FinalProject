@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html>
+
+<style type="text/css">
+	body{
+		margin: 0;
+		background-color: black;
+		font-family:"Trebuchet MS";
+	}
+	#leftmargin{
+		width:18%;
+		padding:1%;
+		float:left;
+		background-color: #D8D8D8 ;
+		/*display: inline-block;*/
+		/*height:600px;*/
+		height:91vh;
+	}
+	#middlemargin{
+		width: 60%;
+		background-color: #FFFFFF;
+		/*display: inline-block;*/
+		/*height:600px;*/
+		float:left;
+		height:89.5vh;
+		overflow: scroll;
+		box-shadow: 0px 0px 10px #888888;
+	}
+	#rightmargin{
+		width:18%;
+		padding:1%;
+		float:left;
+		background-color: #D8D8D8 ;
+		/*display: inline-block;*/
+		/*height:600px;*/
+		height:91vh;
+	}
+	#messageinput{
+		width:80%;
+	}
+	#submitinput{
+		width: 18%;
+	}
+	#messageStream{
+		width: 100%;
+		height:90%;
+		background-color: green;
+		overflow: scroll;
+	}
+	.message{
+		background-color: yellow;
+		width:77%;
+		padding: 2%;
+		margin-left: 10%;
+		margin-right: 10%;
+		margin-top: 2%;
+		margin-bottom: 2%;
+		border-radius: 10px;
+	}
+	#chatbox{
+		bottom: 0;
+		position:fixed;
+		width: 59.7%;
+		background-color: #003366;
+		padding: 3px;
+		height:5%;
+	}
+	#wrapper{
+		width: 100%;
+		margin:0;
+	}
+
+	#header{
+		background-color: #003366;
+		clear:both;
+		height:45px;
+		margin: 0;
+		top:0;
+		text-align: center;
+		line-height: 1.75em;
+		color:white;
+		font-size: 25px; 
+	}
+	#textinput{
+		width: 89%;
+		height: 30px;
+		font-size: 15px;
+	}
+	#messages { 
+		list-style-type: none; 
+		margin: 0; 
+		padding: 0; 
+	}
+    #messages li { 
+    	padding: 5px 10px;
+    	border-bottom: 1px solid black;
+    	/*border: solid black 1px; */
+    }
+    /*#messages li:nth-child(odd) { 
+    	background: #FF6666; 
+    }
+    #messages li:nth-child(even) { 
+    	background: #66CCCC; 
+    }*/
+
+    .adminInput{
+    	width: 100%;
+    	font-size: 15px;
+    	height: 30px;
+
+    }
+
+
+	form button { 
+		width: 9%; 
+		background: rgb(130, 224, 255); 
+		border: none; 
+		padding: 10px; 
+		line-height: 2em;
+		margin-left: 5px;
+	}
+
+	
+
+</style>
+<script src="/socket.io/socket.io.js"></script>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script>
+    $( document ).ready(function() {
+    	var userMsg = ""
+    	console.log("submit");
+        var socket = io.connect('http://localhost:3000');
+
+        $('#chatbox').submit(function(e){
+        	console.log(<%- JSON.stringify(color) %>);
+        	if($('#textinput').val() != ''){
+        		var message = <%- JSON.stringify(color) %>+" "+<%- JSON.stringify(animal) %>+": "+$('#textinput').val();
+        		socket.emit('chat message', message);
+        		userMsg = message;
+            	$('#textinput').val('');
+        	}
+            return false;
+        });
+        $('#logout').click(function(e){
+        	 // e.preventDefault();
+        	$.ajax({
+				  method: "POST",
+				  url: "/logout",
+				  data: { }
+				}).done(function( msg ) {
+			    	location.reload(true);
+			 	});
+
+			 
+        });
+
+        $( "#adminCreateAccount" ).submit(function( ) {
+		  // var dataString = 'username='+ $("#adminNewUsername").val(); + '&password=' + $("#adminNewPassword").val();
+		  $.ajax({
+			  method: "POST",
+			  url: "/adminCreateAccount",
+			  data: { username: $("#adminNewUsername").val(), 
+			  		  password: $("#adminNewPassword").val(),
+			  		  color: $("#adminNewColor").val(),
+			  		  animal: $("#adminNewAnimal").val() }
+			}).done(function( msg ) {
+		    	alert( "Result: " + msg );
+		  	});
+
+		  $('#adminNewUsername').val('');
+		  $('#adminNewPassword').val('');
+		  return false;
+		  event.preventDefault();
+		});
+         socket.on('chat message', function(msg){
+         	if(userMsg == msg){
+         		$('#messages').append($('<li style="background-color:#99FF99;">').text(msg));
+         		userMsg="";
+         	}else{
+         		$('#messages').append($('<li>').text(msg));
+         	}
+  		});
+
+        $(function() {
+	    	$( "#tabs" ).tabs();
+	  	});
+    });
+</script>
+
+<head>
+	<title><%= title %></title>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="header">
+			ShoutOn
+			<a id="logout" href="\" style="float:right; font-size:15px; text-decoration: none; color:white; margin-right:10px;">Logout</a>
+		</div>
+		<div id="leftmargin">
+			<div style="text-align:center;">
+				Welcome <%= username  %>
+			</div>
+		</div>
+		<div id="middlemargin">
+			<ul id="messages"></ul>
+			<div class="form-group">
+			    <form id="chatbox" action="">
+			       <input type="text" class="form-control" id="textinput" autocomplete="off" /><button>Send</button>
+			    </form>
+			</div>
+		</div>
+		<div id="rightmargin">
+			<% if (admin) { %>
+			<h2>Create New Account</h2>
+			 
+			    <form id="adminCreateAccount">
+					<input class="adminInput" id="adminNewUsername" type="text" name="username" placeholder="Username">
+					<input class="adminInput"  id="adminNewPassword" type="password" name="password" placeholder="Password"><br>
+					<select class="adminInput" id="adminNewColor" name="color">
+						<% for(var i = 0;i< colorlist.length;i++){ %>
+						  <option value="<%= colorlist[i].id %>"><%= colorlist[i].color %></option>
+						<% } %>
+				  	</select><br>
+				  	<select class="adminInput" id="adminNewAnimal" name="animal">
+						<% for(var i = 0;i< animallist.length;i++){ %>
+						  <option value="<%= animallist[i].id %>"><%= animallist[i].animal %></option>
+						<% } %>
+				  	</select><br><br>
+					<input class="btn btn-success btn-lg adminInput" type="submit" value="Create">
+				</form>
+				  
+			<% } %>
+		</div>
+	<div>
+
+</body>
+</html>

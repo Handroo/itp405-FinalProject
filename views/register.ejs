@@ -1,0 +1,68 @@
+
+
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" hre<!-- f="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../../css/login.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<style type="text/css">
+	#centerBox{
+		position: fixed;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  height: 300px;
+		  width: 700px;
+		  padding: 50px;
+		  background-color: #800000 ;
+		  color:white;
+		  border-radius: 20px;
+		  font-family:"Trebuchet MS";
+	}
+	.input{
+		width:50%; 
+		margin-left: 25%;
+		display:block;
+		height: 30px;
+		font-size: 15px;
+	}
+	.center{
+		text-align: center;
+	}
+	.message{
+		color:black;
+		text-align: center;
+		width: 100%;
+	}
+</style>
+
+
+<head>
+	<title><%= title %></title>
+</head>
+<body>
+
+	<div id="centerBox">
+		<h1 class="center">Create a ShoutOn account!</h1>
+		<% if (errors) { %>
+		  <h4 class="message"><%= errors %></h4>
+		<% } %>
+		<form id=" createAccountForm" method="post" action="/createAccount">
+			<input class="input" id="newUsername" type="text" name="username" placeholder="Username">
+			<input class="input" id="newPassword" type="password" name="password" placeholder="Password"><br>
+			<select  class="input" id="newColor" name="color">
+				<% for(var i = 0;i< colors.length;i++){ %>
+				  <option value="<%= colors[i].id %>"><%= colors[i].color %></option>
+				<% } %>
+		  	</select>
+		  	<select class="input" id="newAnimal" name="animal">
+				<% for(var i = 0;i< animals.length;i++){ %>
+				  <option value="<%= animals[i].id %>"><%= animals[i].animal %></option>
+				<% } %>
+		  	</select><br>
+			<input class="input" id="newAccount" class="btn btn-success btn-lg" type="submit" value="Create"> 
+		</form>	
+		
+	</div>
+</body>
+</html>
