@@ -19,3 +19,6 @@ I am using bing maps api to receive the coordinates of USC, then caching it so t
 The UI is build through jquery and some bootstrap elements
 ###Database
 There are three tables the app is interacting with: users, colors and animals. These tables are handled with Sequelize, which is a popular Node.js ORM
+
+
+[![Build Status](https://travis-ci.org/Handroo/itp405-FinalProject.svg?branch=master)](https://travis-ci.org/Handroo/itp405-FinalProject)
