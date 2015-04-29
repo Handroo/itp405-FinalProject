@@ -11,6 +11,7 @@ var cookieParser = require('cookie-parser')
 app.use(cookieParser('cookie'));
 var session = require('express-session')
 // app.use(session({ secret: 'shhhh'}));
+//hmmmm
 
 
 var async = require('async')
