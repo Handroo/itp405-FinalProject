@@ -113,7 +113,7 @@ app.post('/logout', LoginController.logout);
 
 
 //Fires up the local server
-var server = server.listen(3000,function(){
+var server = server.listen(process.env.PORT || 3000,function(){
 	var host = server.address().address;
   	var port = server.address().port;
 
