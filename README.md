@@ -5,7 +5,7 @@ To start the app just type this into the terminal:
 
 or type this into the terminal for continuous editing:
 
-`nodemon app`
+`nodemon app.js`
 
 #Testing
 I am using Mocha fo unit tests, so to type this into the terminal in the test directory:
