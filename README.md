@@ -26,3 +26,7 @@ There are three tables the app is interacting with: users, colors and animals. T
 ###Additional Resources
 Link: 
 https://stormy-depths-5129.herokuapp.com/
+GitHub:
+github.com/Handroo/itp405-FinalProject
+Vimeo Demo:
+https://vimeo.com/126341946
