@@ -2,8 +2,7 @@
 //Setting Up Express
 var express = require('express');
 var app = express();
-var expressValidator = require('express-validator');
-var request = require('nodeunit-express');
+// var expressValidator = require('express-validator');
 //Getting Flash
 var flash = require('connect-flash');
 app.use(flash());
@@ -37,7 +36,7 @@ app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
-app.use(expressValidator());
+// app.use(expressValidator());
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
