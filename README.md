@@ -1,3 +1,6 @@
+
+[![Build Status](https://travis-ci.org/Handroo/itp405-FinalProject.svg?branch=master)](https://travis-ci.org/Handroo/itp405-FinalProject)
+
 #Starting App
 To start the app just type this into the terminal:
 
@@ -20,5 +23,6 @@ The UI is build through jquery and some bootstrap elements
 ###Database
 There are three tables the app is interacting with: users, colors and animals. These tables are handled with Sequelize, which is a popular Node.js ORM
 
-
-[![Build Status](https://travis-ci.org/Handroo/itp405-FinalProject.svg?branch=master)](https://travis-ci.org/Handroo/itp405-FinalProject)
+###Additional Resources
+Link: 
+https://stormy-depths-5129.herokuapp.com/
